@@ -1,0 +1,40 @@
+# Import time and socket modules.
+import time
+import socket
+
+opening_line = ("CYB333 Final Project")
+print(opening_line)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Ask for target's website or IP address that will be scanned.
+target = input(('Enter website or IP address to scan: '))
+
+# Notify the user the scan has started and display the target's IP address.
+# Use 127.0.0.1 so we don't scan someone we shouldn't!
+target_ip = socket.gethostbyname(target)
+print('Scanning Target:', target_ip)
+
+# Define the function for port scanning.
+def port_scan(port):
+    try:
+        s.connect((target_ip, port))
+        return True
+    except:
+        return False
+start = time.time()
+
+# Tell which code to scan from port 0 to 7 (for the sake of time), and which ports are open or closed.
+for port in range(7):
+    if port_scan(port):
+        print(f'port {port} is open')
+    else:
+        print(f'port {port} is closed')
+
+# Tell how much time it took to do the scan.
+end = time.time()
+print(f'Time taken {end - start: } seconds')
+
+# Fun simple message after the scan
+end_line = ("Thank you for using this scanner!")
+print(end_line)
